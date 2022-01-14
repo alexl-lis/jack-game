@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
-from turtle import back
+from turtle import back, bgcolor
 from Quiz import Quiz
 
 from Story import Story
@@ -42,6 +42,10 @@ nextButton.grid(column=2, row=2, columnspan=1)
 
 mapTab = ttk.Frame(menu)
 menu.add(mapTab, text="Карта")
+
+gameMap = tkinter.Canvas(mapTab, height=500, width=500, bg = 'white')
+gameMap.create_rectangle(0, 0, 50,50,fill="red")
+gameMap.pack()
 
 quizTab = ttk.Frame(menu)
 menu.add(quizTab, text = "Викторина")
