@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
+from turtle import back
 from Quiz import Quiz
 
 from Story import Story
@@ -18,7 +19,7 @@ menu.add(statusTab, text = "Статус")
 
 def getStory():
     statusText.configure(text=story.getCurrentChapter()["text"])
-    img.configure(file=f'./images/{story.getCurrentChapter()["imageUrl"]}')
+    img.configure(file=f'./images/jack/{story.getCurrentChapter()["imageUrl"]}')
     if "enable" in story.getCurrentChapter():
         quizes[story.getCurrentChapter()["enable"]].enable()
         quizButtons[story.getCurrentChapter()["enable"]]["state"] = NORMAL
@@ -28,7 +29,7 @@ statusText = tkinter.Label(statusTab, text=story.getCurrentChapter()["text"], fo
 statusText.grid(column=1, row=0, columnspan=3)
 
 canvas = tkinter.Canvas(statusTab, height=300, width=300)
-img = tkinter.PhotoImage(file = f'./images/{story.getCurrentChapter()["imageUrl"]}') 
+img = tkinter.PhotoImage(file = f'./images/jack/{story.getCurrentChapter()["imageUrl"]}') 
 image = canvas.create_image(0, 0, anchor='nw',image=img)
 canvas.grid(column=1, row=1, columnspan=3)
 
@@ -48,7 +49,8 @@ menu.add(quizTab, text = "Викторина")
 menu.pack(expand=1, fill="both")
 
 quizes = [
-    Quiz("Проверка", [
+    Quiz("Проверка", 
+    [
         {
             "question" : "Сколько символов в двоичной системе счисления?",
             "answers" : [
@@ -99,6 +101,28 @@ quizes = [
             ],
             "correct" : 1
         }
+    ]),
+    Quiz("Витокрина 2", [
+        {
+            "question" : "А",
+            "answers" : [
+                "Б",
+                "В",
+                "Г",
+                "Я"
+            ],
+            "correct" : 2
+        },
+        {
+            "question" : "Почему?",
+            "answers" : [
+                "Потому",
+                "не знаю",
+                "Ладно",
+                "Почему?"
+            ],
+            "correct" : 2
+        }
     ])
 ]
 
@@ -147,6 +171,8 @@ def nextQuestion(ans):
             elif quizes[currentQuiz].score in [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]:
                 b = "баллов"
         quizText.configure(text=f"Вы набрали {quizes[currentQuiz].score} {b}!")
+        backButton =tkinter.Button(quizTab, text = "Назад", command=showQuizes)
+        backButton.pack()
 
 
 def showQuiz(i):

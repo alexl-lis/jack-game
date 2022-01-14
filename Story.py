@@ -19,7 +19,8 @@ class Story:
         },
         {
             "text" : "я морж",
-            "imageUrl" : "run.png" 
+            "imageUrl" : "run.png",
+            "enable" : 1
         }
     ]
     currentChapter = 0
