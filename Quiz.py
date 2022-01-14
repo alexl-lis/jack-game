@@ -8,7 +8,7 @@ class Quiz:
         self.chapters = chapters
 
     def getCurrentQuestion(self):
-        return self.questions[self.currentQuestion]
+        return self.chapters[self.currentQuestion]
 
     def enable(self):
         self.disabled = False

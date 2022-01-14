@@ -128,13 +128,15 @@ quizAnswers = []
 quizText = False
 
 def nextQuestion(ans):
+    global quizText
     if ans == quizes[currentQuiz].getCurrentQuestion()["correct"]:
         quizes[currentQuiz].score +=1
-    if quizes[currentQuiz].currentQuestion != len(quizes[currentQuiz].questions) - 1:
+    if quizes[currentQuiz].currentQuestion != len(quizes[currentQuiz].chapters) - 1:
         quizes[currentQuiz].currentQuestion += 1
         quizText.configure(text=quizes[currentQuiz].getCurrentQuestion()["question"])
         for i in range(4):
-            quizAnswers[currentQuiz].configure(text=quizes[i].getCurrentQuestion()["answers"][i])
+            print(quizes[currentQuiz].getCurrentQuestion()["answers"])
+            quizAnswers[i].configure(text=quizes[currentQuiz].getCurrentQuestion()["answers"][i])
     else:
         for quizAnswer in quizAnswers:
             quizAnswer.destroy()
@@ -150,13 +152,15 @@ def nextQuestion(ans):
 def showQuiz(i):
     clearQuizTab()
     global currentQuiz
+    global quizText
     currentQuiz = i
     quizText = tkinter.Label(quizTab, text=quizes[i].getCurrentQuestion()["question"], font="Verdana 14")
+    quizText.pack()
     for i in range(4):
-        quizAnswer = tkinter.Button(quizTab, text=quizes[i].getCurrentQuestion()["answers"][i], command=lambda ans=i: nextQuestion(ans))
+        quizAnswer = tkinter.Button(quizTab, text=quizes[currentQuiz].getCurrentQuestion()["answers"][i], command=lambda ans=i: nextQuestion(ans))
         quizAnswer.pack()
         quizAnswers.append(quizAnswer)
-        quizText.pack()
+    
 
 
 window.mainloop()
