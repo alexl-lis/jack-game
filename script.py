@@ -1,7 +1,8 @@
 import tkinter
 from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
-from turtle import back, bgcolor
+from turtle import back, bgcolor, width
+from venv import create
 from Quiz import Quiz
 
 from Story import Story
@@ -43,9 +44,23 @@ nextButton.grid(column=2, row=2, columnspan=1)
 mapTab = ttk.Frame(menu)
 menu.add(mapTab, text="Карта")
 
-gameMap = tkinter.Canvas(mapTab, height=500, width=500, bg = 'white')
-gameMap.create_rectangle(0, 0, 50,50,fill="red")
+gameMap = tkinter.Canvas(mapTab, height=900, width=900, bg = 'white')
+def createMap():
+    
+    map = tkinter.PhotoImage(file = './images/map.png') 
+    mapImage = gameMap.create_image(0, 0, anchor='nw',image=map)
+
+    for i in range(17):
+        gameMap.create_line(50*(i + 1), 0, 50*(i + 1), 900, dash=(2,4), fill="white")
+        gameMap.create_line(0, 50*(i + 1), 900, 50*(i + 1), dash=(2,4), fill="white")
+
+    spriteImage = tkinter.PhotoImage(file = './images/jack/sprites/up.png') 
+    sprite = gameMap.create_image(0, 0, anchor='nw',image=spriteImage)
+
+createMap()
+
 gameMap.pack()
+
 
 quizTab = ttk.Frame(menu)
 menu.add(quizTab, text = "Викторина")
