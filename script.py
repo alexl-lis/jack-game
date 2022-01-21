@@ -4,10 +4,13 @@ from tkinter.constants import DISABLED, NORMAL
 from turtle import back, bgcolor, width
 from venv import create
 from Quiz import Quiz
+from time import sleep
 
+from Player import Player
 from Story import Story
 
 story = Story()
+player = Player()
 
 window = tkinter.Tk()
 window.title("Информатика")
@@ -45,19 +48,44 @@ mapTab = ttk.Frame(menu)
 menu.add(mapTab, text="Карта")
 
 gameMap = tkinter.Canvas(mapTab, height=900, width=900, bg = 'white')
-def createMap():
-    
-    map = tkinter.PhotoImage(file = './images/map.png') 
-    mapImage = gameMap.create_image(0, 0, anchor='nw',image=map)
 
+map = tkinter.PhotoImage(file = './images/map.png') 
+gameMap.create_image(0, 0, anchor='nw',image=map)
+
+for i in range(17):
+    gameMap.create_line(50*(i + 1), 0, 50*(i + 1), 900, dash=(2,4), fill="white")
+    gameMap.create_line(0, 50*(i + 1), 900, 50*(i + 1), dash=(2,4), fill="white")
+
+spriteImage = tkinter.PhotoImage(file = './images/jack/sprites/up.png')
+gameMap.create_image(player.x * 50, player.y * 50, anchor='nw',image=spriteImage)
+
+def renderMap():
+    gameMap.create_image(0, 0, anchor='nw',image=map)
     for i in range(17):
         gameMap.create_line(50*(i + 1), 0, 50*(i + 1), 900, dash=(2,4), fill="white")
         gameMap.create_line(0, 50*(i + 1), 900, 50*(i + 1), dash=(2,4), fill="white")
+    gameMap.create_image(player.x * 50, player.y * 50, anchor='nw',image=spriteImage)
 
-    spriteImage = tkinter.PhotoImage(file = './images/jack/sprites/up.png') 
-    sprite = gameMap.create_image(0, 0, anchor='nw',image=spriteImage)
+def move(event):
+    if(event.keycode == 39):
+        player.moveRight(1)
+        spriteImage.configure(file = './images/jack/sprites/right.png')
+        renderMap()
+    elif(event.keycode == 38):
+        player.moveUp(1)
+        spriteImage.configure(file = './images/jack/sprites/up.png')
+        renderMap()
+    elif(event.keycode == 37):
+        player.moveLeft(1)
+        spriteImage.configure(file = './images/jack/sprites/left.png')
+        renderMap()
+    elif(event.keycode == 40):
+        player.moveDown(1)
+        spriteImage.configure(file = './images/jack/sprites/down.png')
+        renderMap()
 
-createMap()
+
+gameMap.bind("<Key>", move)
 
 gameMap.pack()
 
