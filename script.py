@@ -8,9 +8,18 @@ from time import sleep
 
 from Player import Player
 from Story import Story
+from Tip import Tip
 
 story = Story()
 player = Player()
+
+tips = [
+    Tip(6, 6, "Первая подсказка", "Описание"),
+    Tip(10, 10, "Вторая подсказка", "Описание"),
+    Tip(4, 6, "Третья", "Описание"),
+    Tip(15,11 , "Четвертая", "Описание"),
+    Tip(4, 2, "Пятая", "Описание")
+]
 
 window = tkinter.Tk()
 window.title("Информатика")
@@ -56,39 +65,74 @@ for i in range(17):
     gameMap.create_line(50*(i + 1), 0, 50*(i + 1), 900, dash=(2,4), fill="white")
     gameMap.create_line(0, 50*(i + 1), 900, 50*(i + 1), dash=(2,4), fill="white")
 
+tipImage = tkinter.PhotoImage(file='./images/gift.png')
+
+for tip in tips:
+    if not tip.picked:
+        gameMap.create_image(tip.x *50, tip.y *50, anchor='nw', image=tipImage)
+
 spriteImage = tkinter.PhotoImage(file = './images/jack/sprites/up.png')
 gameMap.create_image(player.x * 50, player.y * 50, anchor='nw',image=spriteImage)
+
 
 def renderMap():
     gameMap.create_image(0, 0, anchor='nw',image=map)
     for i in range(17):
         gameMap.create_line(50*(i + 1), 0, 50*(i + 1), 900, dash=(2,4), fill="white")
         gameMap.create_line(0, 50*(i + 1), 900, 50*(i + 1), dash=(2,4), fill="white")
+
+    for tip in tips:
+        if not tip.picked:
+            gameMap.create_image(tip.x *50, tip.y *50, anchor='nw', image=tipImage)
+        
     gameMap.create_image(player.x * 50, player.y * 50, anchor='nw',image=spriteImage)
+
+def checkTips():
+    for tip in tips:
+        if(player.x == tip.x and player.y == tip.y):
+            return tip
+    else:
+        return False
+
 
 def move(event):
     if(event.keycode == 39):
         player.moveRight(1)
         spriteImage.configure(file = './images/jack/sprites/right.png')
-        renderMap()
     elif(event.keycode == 38):
         player.moveUp(1)
         spriteImage.configure(file = './images/jack/sprites/up.png')
-        renderMap()
     elif(event.keycode == 37):
         player.moveLeft(1)
         spriteImage.configure(file = './images/jack/sprites/left.png')
-        renderMap()
     elif(event.keycode == 40):
         player.moveDown(1)
         spriteImage.configure(file = './images/jack/sprites/down.png')
-        renderMap()
+    if checkTips():
+        tips[tips.index(checkTips())].picked = True
+        showTips()
+    renderMap()
 
 
 gameMap.bind("<Key>", move)
 
 gameMap.pack()
 
+tipTab = ttk.Frame(menu)
+menu.add(tipTab, text = "Подсказки")
+
+def clearTips():
+    for widget in tipTab.winfo_children():
+        widget.destroy()
+
+def showTips():
+    clearTips()
+    for tip in tips:
+        if tip.picked:
+            tipButton = tkinter.Button(tipTab, text=tip.title)
+            tipButton.pack()
+
+showTips()
 
 quizTab = ttk.Frame(menu)
 menu.add(quizTab, text = "Викторина")
