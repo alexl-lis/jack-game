@@ -1,10 +1,8 @@
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkinter.constants import DISABLED, NORMAL
-from turtle import back, bgcolor, width
-from venv import create
+import tkinter.font as tkFont
 from Quiz import Quiz
-from time import sleep
 
 from Player import Player
 from Story import Story
@@ -14,11 +12,11 @@ story = Story()
 player = Player()
 
 tips = [
-    Tip(6, 6, "Первая подсказка", "Описание"),
-    Tip(10, 10, "Вторая подсказка", "Описание"),
-    Tip(4, 6, "Третья", "Описание"),
-    Tip(15,11 , "Четвертая", "Описание"),
-    Tip(4, 2, "Пятая", "Описание")
+    Tip(6, 6, "1 подсказка", "Описание 1"),
+    Tip(10, 10, "2 подсказка", "Описание 2"),
+    Tip(4, 6, "3 подсказка", "Описание 3"),
+    Tip(15,11 , "4 подсказка", "Описание 4"),
+    Tip(4, 2, "5 подсказка", "Описание 5")
 ]
 
 window = tkinter.Tk()
@@ -96,16 +94,17 @@ def checkTips():
 
 
 def move(event):
-    if(event.keycode == 39):
+    print(event.keycode)
+    if(event.keycode == 68):
         player.moveRight(1)
         spriteImage.configure(file = './images/jack/sprites/right.png')
-    elif(event.keycode == 38):
+    elif(event.keycode == 87):
         player.moveUp(1)
         spriteImage.configure(file = './images/jack/sprites/up.png')
-    elif(event.keycode == 37):
+    elif(event.keycode == 65):
         player.moveLeft(1)
         spriteImage.configure(file = './images/jack/sprites/left.png')
-    elif(event.keycode == 40):
+    elif(event.keycode == 83):
         player.moveDown(1)
         spriteImage.configure(file = './images/jack/sprites/down.png')
     if checkTips():
@@ -125,11 +124,20 @@ def clearTips():
     for widget in tipTab.winfo_children():
         widget.destroy()
 
+def showTip(i):
+    messagebox.showinfo(tips[i].title, tips[i].description)
+
 def showTips():
     clearTips()
-    for tip in tips:
+    for i, tip in enumerate(tips):
         if tip.picked:
-            tipButton = tkinter.Button(tipTab, text=tip.title)
+            font = tkFont.Font(family="Courier New", size=20)
+            tipButton = tkinter.Button(tipTab, 
+                text=tip.title, 
+                bg="#0084ff",
+                fg="white",
+                font=font,
+                command = lambda i=i:showTip(i))
             tipButton.pack()
 
 showTips()
