@@ -94,7 +94,6 @@ def checkTips():
 
 
 def move(event):
-    print(event.keycode)
     if(event.keycode == 68):
         player.moveRight(1)
         spriteImage.configure(file = './images/jack/sprites/right.png')
@@ -131,14 +130,14 @@ def showTips():
     clearTips()
     for i, tip in enumerate(tips):
         if tip.picked:
-            font = tkFont.Font(family="Courier New", size=20)
+            font = tkFont.Font(family="Calibri", size=20)
             tipButton = tkinter.Button(tipTab, 
                 text=tip.title, 
                 bg="#0084ff",
                 fg="white",
                 font=font,
                 command = lambda i=i:showTip(i))
-            tipButton.pack()
+            tipButton.place(anchor="c", relx=.5, rely=.5)
 
 showTips()
 
