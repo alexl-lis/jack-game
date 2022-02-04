@@ -3,7 +3,6 @@ import tkinter
 from tkinter import CENTER, ttk, messagebox
 from tkinter.constants import DISABLED, NORMAL
 import tkinter.font as tkFont
-from turtle import bgcolor
 from Quiz import Quiz
 
 quizes = [
@@ -278,7 +277,6 @@ def checkTips():
 
 
 def move(event):
-    print(event.keycode)
     if(event.keycode == 68):
         player.moveRight(1)
         spriteImage.configure(file = './images/jack/sprites/right.png')
@@ -318,7 +316,7 @@ def showTips():
             font = tkFont.Font(family="Calibri", size=20)
             tipButton = tkinter.Button(tipTab, 
                 text=tip.title, 
-                bg="#0084ff", 
+                bg="#0084ff",
                 fg="white",
                 font=font,
                 command = lambda i=i:showTip(i))
